@@ -79,7 +79,7 @@ class CompaniesController {
 
         // FIX THIS PART ONCE DB IS WORKING
         c.name = name;
-        if(true) {
+        if(c.save(flush: true)) {
             render(status:200);
         } else {
             response.sendError(500);
@@ -92,10 +92,8 @@ class CompaniesController {
             response.sendError(404);
             return;
         }
-        if(c.delete())
-            render(status:200);
-        else
-            response.sendError(500);
+        c.delete(flush: true);
+        render(status:200);
     }
 
     private void createCompany() {
@@ -134,7 +132,7 @@ class CompaniesController {
             return;
         }
 
-        new Company(name: name, symbol: symbol, stockPrice: 50, stocksAvailable: 100).save();
+        new Company(name: name, symbol: symbol, stockPrice: 50, stocksAvailable: 100).save(flush: true);
         render(status:201);
     }
 

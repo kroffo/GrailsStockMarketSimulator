@@ -36,7 +36,7 @@ class CompaniesController {
     }
 
     private void listCompanies() {
-        Company[] companies = Company.getCompanies();
+        Company[] companies = Company.findAll();
         String json = "[\n";
         for(int i=0; i<companies.length; ++i) {
             json += getCompanyJson(companies[i], 2);
@@ -50,7 +50,7 @@ class CompaniesController {
     }
 
     private void detailCompany(String symbol) {
-        Company c = Company.getCompany(symbol);
+        Company c = Company.findBySymbol(symbol);
         if(c == null) {
             response.sendError(404);
             return;
@@ -59,7 +59,7 @@ class CompaniesController {
     }
 
     private void updateCompany(String symbol) {
-        Company c = Company.getCompany(symbol);
+        Company c = Company.findBySymbol(symbol);
         if(c == null) {
             response.sendError(404);
             return;
@@ -77,7 +77,9 @@ class CompaniesController {
             return;
         }
 
-        if(c.updateName(name)) {
+        // FIX THIS PART ONCE DB IS WORKING
+        c.name = name;
+        if(true) {
             render(status:200);
         } else {
             response.sendError(500);
@@ -85,16 +87,15 @@ class CompaniesController {
     }
 
     private void deleteCompany(String symbol) {
-        Company c = Company.getCompany(symbol);
+        Company c = Company.findBySymbol(symbol);
         if(c == null) {
             response.sendError(404);
             return;
         }
-        if(Company.deleteCompany(symbol)) {
+        if(c.delete())
             render(status:200);
-        } else {
+        else
             response.sendError(500);
-        }
     }
 
     private void createCompany() {
@@ -127,13 +128,13 @@ class CompaniesController {
             return;
         }
 
-        if(Company.getCompany(symbol) != null) {
+        if(Company.findBySymbol(symbol) != null) {
             response.status = 409;
             render("Company with symbol " + symbol + " already exists.");
             return;
         }
 
-        Company.addCompany(name, symbol);
+        new Company(name: name, symbol: symbol, stockPrice: 50, stocksAvailable: 100).save();
         render(status:201);
     }
 
@@ -143,10 +144,10 @@ class CompaniesController {
             preceder += " ";
 
         String json = preceder + "{\n";
-        json += preceder + "  \"name\": \"" + c.getName() + "\",\n";
-        json += preceder + "  \"symbol\": \"" + c.getSymbol() + "\",\n";
-        json += preceder + "  \"availableStocks\": " + c.getNumberOfStocksAvailable() + ",\n";
-        json += preceder + "  \"stockPrice\": " + c.getStockPrice() + "\n";
+        json += preceder + "  \"name\": \"" + c.name + "\",\n";
+        json += preceder + "  \"symbol\": \"" + c.symbol + "\",\n";
+        json += preceder + "  \"availableStocks\": " + c.stocksAvailable + ",\n";
+        json += preceder + "  \"stockPrice\": " + c.stockPrice + "\n";
         json += preceder + "}";
 
         return json;

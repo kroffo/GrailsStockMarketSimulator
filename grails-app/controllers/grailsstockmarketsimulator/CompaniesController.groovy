@@ -77,7 +77,6 @@ class CompaniesController {
             return;
         }
 
-        // FIX THIS PART ONCE DB IS WORKING
         c.name = name;
         if(c.save(flush: true)) {
             render(status:200);

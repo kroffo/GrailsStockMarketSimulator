@@ -7,25 +7,25 @@ class UsersController {
     def index(String userName) {
         switch (request.method) {
             case 'GET':
-                if(userName == null)
+                if (userName == null)
                     listUsers()
                 else
                     detailUser(userName)
                 break
             case 'POST':
-                if(userName == null)
+                if (userName == null)
                     createUser()
                 else
                     response.sendError(404)
                 break
             case 'DELETE':
-                if(userName != null)
+                if (userName != null)
                     deleteUser(userName)
                 else
                     response.sendError(404)
                 break
             case 'PUT':
-                if(userName != null)
+                if (userName != null)
                     updateUser(userName)
                 else
                     response.sendError(404)

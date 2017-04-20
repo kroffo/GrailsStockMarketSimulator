@@ -107,8 +107,8 @@ class CompaniesController {
             render("Missing parameter \"symbol\"");
             return;
         }
-        String name = request.JSON.getString("name");
-        String symbol = request.JSON.getString("symbol");
+        String name = json.getString("name");
+        String symbol = json.getString("symbol");
         if(name.length() == 0) {
             response.status = 400;
             render("Parameter \"name\" must have length greater than 0.")

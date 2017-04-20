@@ -9,9 +9,12 @@ class UrlMappings {
 //            }
 //        }
         "/companies/$symbol?" (controller: "Companies", parseRequest: true)
+        "/users/$userName?" (controller: "Users", parseRequest: true)
 
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')
+
+
     }
 }

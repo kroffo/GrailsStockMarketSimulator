@@ -1,10 +1,13 @@
 package grailsstockmarketsimulator
 
 import org.grails.web.json.JSONObject
-
+import grailsstockmarketsimulator.StockReaderService
 class CompaniesController {
 
     def index(String symbol) {
+
+        StockReaderService.updateStockPrices();
+
         switch(request.method) {
             case 'GET':
                 if(symbol == null)

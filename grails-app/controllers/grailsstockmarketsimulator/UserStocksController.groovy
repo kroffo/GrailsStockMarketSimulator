@@ -1,10 +1,14 @@
 package grailsstockmarketsimulator
 
 import org.grails.web.json.JSONObject
+import grailsstockmarketsimulator.StockReaderService
 
 class UserStocksController {
 
     def index(String userName, String symbol) {
+
+        StockReaderService.updateStockPrices();
+
         User user = User.findByUserName(userName);
         if(user == null) {
             response.sendError(404);
@@ -34,7 +38,7 @@ class UserStocksController {
 
         for(int i=0; i<stocks.length; ++i) {
             Stock stock = stocks[i];
-            json += "  \"" + stock.company.name + "\": {\n";
+            json += "  \"" + stock.company.symbol + "\": {\n";
             json += "    \"stocks\": " + stock.stocks + ",\n";
             json += "    \"averagePrice\": " + stock.averagePrice + "\n";
             json += "  }";

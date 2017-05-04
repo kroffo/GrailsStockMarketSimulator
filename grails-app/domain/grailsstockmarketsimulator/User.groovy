@@ -12,4 +12,8 @@ class User {
         userName(blank: false, size: 1..20, unique: true)
         password(blank: false, size: 1..30)
     }
+
+    static mapping = {
+        stocks cascade: 'all-delete-orphan'
+    }
 }

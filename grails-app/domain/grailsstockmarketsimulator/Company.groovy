@@ -14,4 +14,7 @@ class Company {
         symbol(blank: false, size: 1..8, unique: true)
     }
 
+    static mapping = {
+        stocks cascade: 'all-delete-orphan'
+    }
 }
